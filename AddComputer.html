@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak - Add Computer</title>
+    <link rel="stylesheet" href="AddComputer.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" id="logo" alt="Hidden Peak Logo">
+        
+    </header>
+    
+    <div class="content">
+        <!-- <button id="dashboard-btn">◄ Dashboard</button> -->
+        
+        <div class="inventory-section">
+            <h2 id="top-title">Add New Computer</h2>
+            <form id="add-computer-form">
+                <label for="processor-select">Processor</label>
+                <select id="processor-select">
+                    <option></option>
+                    <option>Intel Xeon</option>
+                    <option>Intel i7</option>
+                    <option>Intel i9</option>
+                    <option>AMD Ryzen 7</option>
+                    <option>AMD Ryzen 9</option>
+                </select>
+                <label for="processor-gen-select">Processor Gen</label>
+                <select id="processor-gen-select">
+                    <option></option>
+                    <option>13th Gen</option>
+                    <option>12th Gen</option>
+                    <option>11th Gen</option>
+                    <option>AMD Ryzen 7000</option>
+                    <option>AMD Ryzen 6000</option>
+                </select>
+                <label for="ram-select">RAM</label>
+                <select id="ram-select">
+                    <option></option>
+                    <option>32 GB</option>
+                    <option>16 GB</option>
+                    <option>12 GB</option>
+                    <option>8 GB</option>
+                    <option>4 GB</option>
+                    <option>1 GB</option>
+                </select>
+                <label for="storage-select">Storage</label>
+                <select id="storage-select">
+                    <option></option>
+                    <option>2 TB</option>
+                    <option>1 TB</option>
+                    <option>512 GB</option>
+                    <option>256 GB</option>
+                    <option>128 GB</option>
+                </select>
+                <label for="gpu-select">Graphics</label>
+                <select id="gpu-select">
+                    <option></option>
+                    <option>NVIDIA GeForce RTX 4090</option>
+                    <option>NVIDIA GeForce RTX 4080</option>
+                    <option>AMD Radeon Pro W6300</option>
+                    <option>AMD Radeon Pro W6400</option>
+                    <option>Intel Integrated Graphics</option>
+                    <option>Intel UHD Graphics 730</option>
+                    <option>Intel UHD Graphics 770</option>
+                </select>
+                <label for="price-input">Price</label>
+                <input type="number" id="price-input" placeholder="">
+            
+                <div class="button-container">
+                    <button id="back-inventory-btn" type="button">Back to Inventory Management</button>
+                    <button type="reset">Reset Form</button>
+                    <button type="submit">Add Computer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <a href="#">Terms of Sales</a>
+        <a href="#">Privacy Statement</a>
+        <a href="#">Cookies, Ads & Emails</a>
+        <a href="#">Legal & Regulatory</a>
+        <a href="#">Accessibilities</a>
+    </footer>
+
+    <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const storeId = urlParams.get('storeId');
+        const storeName = urlParams.get('storeName');
+
+        $("#top-title").text("Add New Computer to " + storeName);
+
+        document.getElementById('back-inventory-btn').addEventListener('click', function() {
+            window.location.href = 'SO_InventoryM.html?storeId=' + storeId + '&storeName=' + storeName;
+        });
+
+        document.getElementById('add-computer-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect form data into an object
+            var payload = {
+                'storeId' : storeId,
+                'processor': document.getElementById('processor-select').value,
+                'processorGen': document.getElementById('processor-gen-select').value,
+                'ram': document.getElementById('ram-select').value,
+                'storage': document.getElementById('storage-select').value,
+                'gpu': document.getElementById('gpu-select').value,
+                'price': document.getElementById('price-input').value
+            };
+
+            // Validate inputs
+            if (!validateFormInputs(payload)) {
+                return; // Stop the function if validation fails
+            }
+
+            // If validation is successful, proceed with form submission
+            const response = fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/addComputer",
+            {
+                method: "POST",
+                body: JSON.stringify(payload)
+            }).then((response) => response)
+
+            const fetchResult = async () => {
+                let val = await response
+                let result = await val.json()
+                console.log(result)
+                alert('Computer successfully added!')
+                window.location.href = "SO_InventoryM.html?storeId=" + storeId + '&storeName=' + storeName;
+            }
+            
+            fetchResult();
+        });
+    });
+
+    function validateFormInputs(payload) {
+        if (!payload.processor || !payload.processorGen || !payload.ram || !payload.storage || !payload.gpu) {
+            alert('Please make sure all fields are selected.');
+            return false;
+        }
+
+        if (payload.price === '' || isNaN(payload.price) || parseFloat(payload.price) <= 0) {
+            alert('Please enter a valid price.');
+            return false;
+        }
+
+        return true; // Validation passed
+    }
+</script>
+
+</body>
+</html>

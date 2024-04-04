@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="welcome.css">
+    <script>
+        // This function will run once the document is fully loaded
+        document.addEventListener("DOMContentLoaded", function() {
+            // An event listener for the "Site Manager" button
+            document.querySelector(".site-manager-btn").addEventListener("click", function() {
+                window.location.href = "login.html";
+            });
+
+            // An event listener for the "Store Owner" button
+            document.querySelector(".store-owner-btn").addEventListener("click", function() {
+                window.location.href = "SO_Login.html";
+            });
+
+            // An event listener for the "Customer" button
+            document.querySelector(".customer-btn").addEventListener("click", function() {
+                window.location.href = "customer.html";
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="button-wrapper">
+            <button class="btn customer-btn">&#128722; Customer</button>
+            <button class="btn site-manager-btn">&#x1F512; Site Manager</button>
+            <button class="btn store-owner-btn">&#x1F512; Store Owner</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak</title>
+    <link rel="stylesheet" href="SO_CreateStore.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" alt="Hidden Peak" id="logo">
+        <!-- <input type="search" placeholder="Search" id="search-bar">
+        <button id="profile-btn" onclick="location.href='login.html'">Sign Out</button> -->
+    </header>
+    <main>
+        <section class="dashboard-section">
+            <!-- <button class="back-button" onclick="location.href='SO_Dashboard.html'">&#x3C; Dashboard</button> -->
+            <h1>Create Virtual Store</h1>
+            <div class="input-group">
+                <label for="store-name">Store Name</label>
+                <input type="text" id="store-name" placeholder="Store Name">
+            </div>
+            <div class="input-group">
+                <label for="store-address">Store Address</label>
+                <input type="text" id="latitude" placeholder="Latitude">
+                <input type="text" id="longitude" placeholder="Longitude">
+            </div>
+            <div class="login-credentials-group">
+                <label for="login-credentials">Specify Store Login Credentials</label>
+                <input type="text" id="username" placeholder="Username">
+                <input type="text" id="password" placeholder="Password">
+            </div>
+
+            <div class="button-group">
+                <button type="button" onclick="location.href='SO_Login.html'">Back to Login</button>
+                <button type="button" onclick="resetForm()">Reset</button>
+                <button type="button" onclick="submitForm()">Submit</button>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <ul>
+            <li>Terms of Sales</li>
+            <li>Privacy Statement</li>
+            <li>Cookies, Ads & Emails</li>
+            <li>Legal & Regulatory</li>
+            <li>Accessibilities</li>
+        </ul>
+    </footer>
+
+    <script>
+        // Function to reset the form inputs
+        function resetForm() {
+            document.getElementById('store-name').value = '';
+            document.getElementById('latitude').value = '';
+            document.getElementById('longitude').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Function to submit the form data to the RDS database
+        function submitForm() {
+            var storeName = document.getElementById('store-name').value;
+            var latitude = document.getElementById('latitude').value;
+            var longitude = document.getElementById('longitude').value;
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Validate inputs
+            if (!storeName || !latitude || !longitude || !username || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            if (isNaN(latitude) || isNaN(longitude)) {
+                alert('Latitude/Longitude is not a valid number.');
+                return;
+            }
+
+            // Construct data to send
+            var dataToSend = {
+                storeName: storeName,
+                latitude: latitude,
+                longitude: longitude,
+                username: username,
+                password: password
+            };
+
+            console.log(dataToSend)
+
+            const response = fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/createStore",
+            {
+                method: "POST",
+                body: JSON.stringify(dataToSend)
+            }).then((response) => response)
+
+            const fetchResult = async () => {
+                let val = await response
+                let result = await val.json()
+                alert('Store successfully created!')
+                window.location.href = "SO_Login.html";
+
+            }
+            
+            fetchResult()
+        }
+    </script>
+</body>
+</html>

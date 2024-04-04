@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SO_Dashboard.css">
+    <title>Store Owner Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <img src="peak.png" alt="Hidden Peak Logo">
+        <!-- <div class="search-group">
+            <input type="search" placeholder="Search">
+            <button>&#128269;</button>
+        </div> -->
+        <!-- <a href="javascript:void(0);" id="sign-out">Sign Out</a> -->
+    </header>
+        <!-- <button id="dashboard">Dashboard</button> -->
+
+    <main>
+        <h1 id="toptitle">Inventory Management</h1>
+        <button id="add-new-computer">Add New Computer</button>
+        <!-- <button id="edit-inventory">Edit Inventory</button> -->
+        <button id="total-inventory">View/Remove Inventory</button>
+        <button id="sign-out">Log Out</button>
+
+    </main>
+
+    <footer>
+        <a href="#">Terms of Sales</a>
+        <a href="#">Privacy Statement</a>
+        <a href="#">Cookies, Ads & Emails</a>
+        <a href="#">Legal & Regulatory</a>
+        <a href="#">Accessibilities</a>
+    </footer>
+
+    <script>
+        // get the storeId out of the URL params
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const storeId = urlParams.get('storeId');
+        console.log(storeId)
+
+        const storeName = urlParams.get('storeName');
+        console.log(storeName)
+
+        $("#toptitle").text("Inventory Management for " + storeName);
+        $("#sign-out").text("Log out of " + storeName);
+
+
+        // Sign out link
+        // document.getElementById('sign-out').addEventListener('click', function() {
+        //     window.location.href = 'SO_Dashboard.html';
+        // });
+
+        // Dashboard button
+        // document.getElementById('dashboard').addEventListener('click', function() {
+        //     window.location.href = 'SO_Dashboard.html'; // Assuming the filename is 'SO_Dashboard.html'
+        // });
+
+        // Add New Computer button
+        document.getElementById('add-new-computer').addEventListener('click', function() {
+            window.location.href = 'AddComputer.html?storeId=' + storeId + '&storeName=' + storeName;
+        });
+
+        // Edit Inventory button
+        // document.getElementById('edit-inventory').addEventListener('click', function() {
+        //     window.location.href = 'Edit_Inventory.html';
+        // });
+
+        // Total Inventory button
+        document.getElementById('total-inventory').addEventListener('click', function() {
+            window.location.href = 'SO_InventoryR.html?storeId=' + storeId + '&storeName=' + storeName;
+        });
+
+        // Total Inventory button
+        document.getElementById('sign-out').addEventListener('click', function() {
+            window.location.href = 'welcome.html';
+        });
+    </script>
+
+</body>
+</html>

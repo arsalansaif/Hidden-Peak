@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak - Remove Computer</title>
+    <link rel="stylesheet" href="SO_InventoryR.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" alt="Hidden Peak Logo">
+    </header>
+    
+    <nav>
+        <div class="button-container">
+            <button id="back-inventory-btn" type="button">Back to Inventory Management</button>
+        </div>
+        <h2 id="top-title">Inventory Report</h2>
+    </nav>
+    
+    <section id="dashboard">
+        <table id="inventory-table">
+            <thead>
+                <tr>
+                    <th>Computer ID</th>
+                    <th>Price</th>
+                    <th>Memory</th>
+                    <th>Storage</th>
+                    <th>Processor</th>
+                    <th>Processor Generation</th>
+                    <th>Graphics</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Inventory data will be inserted here -->
+            </tbody>
+        </table>
+        <section id="total-balance-section">
+            <h3>Total Balance: <span id="total-balance">$0.00</span></h3>
+        </section>
+    </section>
+    
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const storeId = urlParams.get('storeId');
+        const storeName = urlParams.get('storeName');
+
+        $("#top-title").text("Inventory Report for " + storeName);
+
+        document.addEventListener('DOMContentLoaded', init);
+
+        function init() {
+            fetchComputers()
+            getStoreBalance()
+        }
+
+        function fetchComputers() {
+            var payload = {
+                'storeId': storeId
+            };
+
+            fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/generateInventory", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                result.body.forEach(computer => {
+                    const formattedPrice = new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                    }).format(computer.price);
+
+                    $('#inventory-table > tbody').append(`
+                        <tr>
+                            <td>${computer.computerId}</td>
+                            <td id="price-${computer.computerId}">${formattedPrice}</td>
+                            <td>${computer.memory}</td>
+                            <td>${computer.storage}</td>
+                            <td>${computer.processor}</td>
+                            <td>${computer.processorGeneration}</td>
+                            <td>${computer.graphics}</td>
+                            <td>
+                                <button class="edit-button" data-computerId="${computer.computerId}">Edit</button>
+                                <button class="remove-button" data-computerId="${computer.computerId}">Remove</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching computers. Please try again.');
+            });
+        }
+
+    
+        function getStoreBalance() {
+            var payload = {
+                'storeId': storeId
+            };
+
+            fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/getStoreBalance", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                let totalBalance = result.body[0].balance;
+                document.getElementById('total-balance').textContent = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                }).format(totalBalance);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error getting store balance. Please try again.');
+            });
+        }
+    
+       // Event delegation for edit, save, and remove buttons
+       document.getElementById('inventory-table').addEventListener('click', function(event) {
+            if (event.target.tagName === 'BUTTON') {
+                const computerId = event.target.getAttribute('data-computerId');
+                if (event.target.classList.contains('edit-button')) {
+                    editPrice(computerId, event.target);
+                } else if (event.target.classList.contains('remove-button')) {
+                    removeComputer(computerId);
+                } else if (event.target.classList.contains('save-button')) {
+                    saveEditedPrice(computerId, event.target);
+                }
+            }
+        });
+    
+        function editPrice(computerId, button) {
+            const priceCell = document.getElementById(`price-${computerId}`);
+            const currentPrice = parseFloat(priceCell.textContent.replace(/[^0-9.-]+/g,""));
+            priceCell.innerHTML = `<input type="number" id="edit-price-${computerId}" value="${currentPrice}">`;
+    
+            button.textContent = 'Save';
+            button.classList.remove('edit-button');
+            button.classList.add('save-button');
+        }
+    
+        function saveEditedPrice(computerId, button) {
+            const newPrice = document.getElementById(`edit-price-${computerId}`).value;
+    
+            // Update API to update price
+            fetch('https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/modifyComputerPrice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ computerId, newPrice })
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById(`price-${computerId}`).textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(newPrice);
+                    
+                    // Change the Save button back to Edit
+                    button.textContent = 'Edit';
+                    button.classList.remove('save-button');
+                    button.classList.add('edit-button');
+    
+                    alert('Price updated successfully!');
+                } else {
+                    throw new Error('Failed to update price');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update price.');
+            });
+        }
+    
+        function removeComputer(computerId) {
+            if (confirm('Are you sure you want to remove this computer?')) {
+                var payload = { 'computerId': computerId };
+
+                fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/removeComputer", {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert('Computer successfully removed!');
+
+                    // Find the table row corresponding to the computerId and remove it from the DOM
+                    document.querySelector(`button[data-computerId="${computerId}"]`).closest('tr').remove();
+                    
+                    // Add $25 to site balance
+                    addSiteBalance(25)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error removing computer. Please try again.');
+                });
+            }
+        }
+    
+
+        function addSiteBalance(balance) {
+            var payload = { 'balance': balance };
+
+            fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/addSiteBalance", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Added $25 site balance')
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+        // Event listener for back button
+        document.getElementById('back-inventory-btn').addEventListener('click', function() {
+            window.location.href = 'SO_InventoryM.html?storeId=' + storeId + '&storeName=' + storeName;
+        });
+    
+    </script>
+
+    
+
+</body>
+</html>

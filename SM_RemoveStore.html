@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak Dashboard</title>
+    <link rel="stylesheet" href="SM_RemoveStore.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" alt="Hidden Peak" id="logo">
+        <!-- <input type="text" placeholder="Search">
+        <button id="sign-out-btn">Sign Out</button> -->
+    </header>
+    
+    <section id="dashboard">
+        <!-- <button id="back-btn">◄ Dashboard</button> -->
+        <h2>Remove Store</h2>
+        <label for="store-select-label">Select a Store</label>
+        <select id="store-select">
+        </select>
+        <div id="selected-store-info"><!-- Store information will be displayed here --></div>
+        <div id="actions">
+            <button id="back-btn">Back to Dashboard</button>
+            <button id="remove-btn">Remove</button>
+        </div>
+    </section>
+    
+    <script>
+
+        // this calls the endpoint to get a list of stores to remove from
+        const response = fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak",
+          {
+            method: "GET",
+            //body: JSON.stringify(payload)
+          }).then((response) => response)
+
+          const fetchResult = async () => {
+            let val = await response
+            let result = await val.json()
+            //console.log(result.body)
+
+            for (let i = 0; i < result.body.length; i++) {
+                $('#store-select').append('<option>'+result.body[i].storeName+'</option>');
+            }
+          }
+          
+          fetchResult()
+
+
+        // document.getElementById('sign-out-btn').addEventListener('click', function() {
+        //     window.location.href = 'login.html';
+        // });
+
+        document.getElementById('back-btn').addEventListener('click', function() {
+            window.location.href = 'SM_Dash.html';
+        });
+
+        // document.getElementById('store-select').addEventListener('change', function() {
+        //     var store = this.value;
+        //     if (store) {
+        //         // AJAX request to fetch and display store information
+        //         $.ajax({
+        //             type: 'GET',
+        //             url: 'SERVER_ENDPOINT_TO_FETCH_STORE_INFO', // Replace with actual server endpoint
+        //             data: { 'store': store },
+        //             success: function(response) {
+        //                 // Update the selected-store-info div with the response data
+        //                 document.getElementById('selected-store-info').innerText = response;
+        //             },
+        //             error: function() {
+        //                 alert('Error retrieving store information. Please try again.');
+        //             }
+        //         });
+        //     }
+        // });
+
+        document.getElementById('remove-btn').addEventListener('click', function() {
+            var storeName = document.getElementById('store-select').value;
+            if (storeName) {
+                if (confirm('Are you sure you want to remove the selected store?')) {
+
+                    var payload = {"storeName" : storeName};
+
+                    console.log(payload)
+
+                    const response = fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/removeStore",
+                    {
+                        method: "POST",
+                        body: JSON.stringify(payload)
+                    }).then((response) => response)
+
+                    const fetchResult = async () => {
+                        let val = await response
+                        let result = await val.json()
+                        console.log(result)
+                        alert('Store successfully removed!')
+                        window.location.href = "SM_Dash.html";
+                    }
+                    
+                    fetchResult()
+
+                }
+            }
+        });
+    </script>
+    
+    <footer>
+        <a href="#">Terms of Sales</a>
+        <a href="#">Privacy Statement</a>
+        <a href="#">Cookies, Ads & Emails</a>
+        <a href="#">Legal & Regulatory</a>
+        <a href="#">Accessibilities</a>
+    </footer>
+</body>
+</html>

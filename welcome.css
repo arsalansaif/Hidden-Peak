@@ -1,0 +1,59 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background:#29313C;
+}
+
+.container {
+    background: url('welcome.png') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    position: relative;
+}
+
+.button-wrapper {
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    gap: 5px; 
+    animation: moveButtons 5s forwards; 
+
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 1em;
+    color: white;
+    border: none;
+    border-radius: 20px; 
+    background-image: linear-gradient(to right, #3940c8, #767be3); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+    transition: transform 0.2s, box-shadow 0.2s; 
+}
+
+.btn:hover, .btn:focus {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); 
+}
+
+.btn:active {
+    transform: scale(0.95); 
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); 
+}
+
+@keyframes moveButtons {
+    100% {
+      bottom: 5%;
+    }
+    0% {
+      bottom: 50%;
+    }
+  }
+  

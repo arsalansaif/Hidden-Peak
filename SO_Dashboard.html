@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SO_Dashboard.css">
+    <title>Store Owner Dashboard</title>
+</head>
+<body>
+
+    <header>
+        <img src="peak.png" alt="Hidden Peak Logo">
+        <!-- <div class="search-group">
+            <input type="search" placeholder="Search">
+            <button>&#128269;</button>
+        </div> -->
+
+        <!-- <a href="javascript:void(0);" id="sign-out" class="sign-out">Sign Out</a> -->
+    </header>
+
+    <main>
+        <div class="dashboard-header">Store Owner Dashboard</div>
+        <button class="action-btn" id="create-store">Create Virtual Store</button>
+        <button class="action-btn" id="inventory-management">Inventory Management (requires Login)</button>
+        <button class="action-btn" id="sign-out" onclick="navigate('welcome.html')">Log Out</button>
+
+        <!-- <button id="inventory-report">Inventory Report</button>
+        <button id="manage-stores">Manage Stores</button> -->
+    </main>
+
+    <footer>
+        <a href="#">Terms of Sales</a>
+        <a href="#">Privacy Statement</a>
+        <a href="#">Cookies, Ads & Emails</a>
+        <a href="#">Legal & Regulatory</a>
+        <a href="#">Accessibilities</a>
+    </footer>
+
+    <script>
+
+        // JavaScript function to navigate to a specific page
+        function navigate(url) {
+            window.location.href = url;
+        }
+        
+        // Sign out link
+        // document.getElementById('sign-out').addEventListener('click', function() {
+        //     window.location.href = 'login.html';
+        // });
+
+        // Create Virtual Store button
+        document.getElementById('create-store').addEventListener('click', function() {
+            window.location.href = 'SO_CreateStore.html';
+        });
+
+        // Inventory Management button
+        document.getElementById('inventory-management').addEventListener('click', function() {
+            window.location.href = 'SO_Login.html';
+            //window.location.href = 'SO_InventoryM.html';
+        });
+
+        // Inventory Report button
+        // document.getElementById('inventory-report').addEventListener('click', function() {
+        //     window.location.href = 'SO_InventoryR.html';
+        // });
+
+        // Manage Stores button
+        // document.getElementById('manage-stores').addEventListener('click', function() {
+        //     window.location.href = 'SO_ManageStores.html';
+        // });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="peak.png" alt="Hidden Peak">
+        </div>
+        <!-- <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <button>🔍</button>
+        </div>
+        <div class="account">
+            <button>Sign In</button>
+        </div> -->
+    </header>
+    <main>
+        <div class="sign-in-box">
+            <h2>Store Owner Login</h2>
+            <div class="input-field">
+                <input type="text" id="username" placeholder="Username">
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" placeholder="Password">
+                <h5><a href="#">Forgot your password?</a></h5>
+            </div>
+            <button class="continue-btn" onclick="authenticateUser()">Continue</button>
+            <h5><p>By continuing, you agree to Hidden Peak's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p></h5>
+            <div class="new-account">
+                <p>New to Hidden Peak?</p>
+                <button onclick="window.location.href='SO_CreateStore.html'">Create Store</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        function authenticateUser() {
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+
+            var payload = { "username" : username, "password" : password }
+
+            // Here you can add some basic validation for emailOrPhone and password before sending the request
+
+            // this calls the endpoint try and authenticate 
+            const response = fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/storeLogin",
+                {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                }).then((response) => response)
+
+                const fetchResult = async () => {
+                    let val = await response
+                    let result = await val.json()
+                    
+                    if (result.body.length >= 1) {
+                        var store = result.body[0]
+
+                        var storeId = store.storeId;
+                        var storeName = store.storeName;
+                        alert('Welcome ' + storeName + ' Store Owner!')
+
+                        console.log("log into store " + storeId)
+                        console.log("found a store")
+
+                        // Go to this store's inventory management page
+                        window.location.href = 'SO_InventoryM.html?storeId=' + storeId + '&storeName=' + storeName;
+                    }
+
+                    else {
+                        alert('no store found')
+                        console.log("no store found")
+                    }
+                    //console.log(result.body)
+
+
+                    // if (response.isValid) {
+                    //     if (response.userRole === 'Site Manager') {
+                    //         window.location.href = 'SM_Dash.html';
+                    //     } else if (response.userRole === 'Store Owner') {
+                    //         window.location.href = 'SO_Dashboard.html';
+                    //     } else {
+                    //         // Handle any other user roles or errors
+                    //         alert('User role not recognized. Please contact support.');
+                    //     }
+                    // } else {
+                    //     // Highlight the input fields to indicate an error
+                    //     document.getElementById('email-phone').style.border = "2px solid red";
+                    //     document.getElementById('password').style.border = "2px solid red";
+                    //     alert('Invalid credentials. Please try again.');
+                    // }
+                }
+                
+                fetchResult()
+
+
+            // Use AJAX to check against the RDS database
+            // $.ajax({
+            //     type: 'POST',
+            //     url: 'SERVER_ENDPOINT_TO_CHECK_CREDENTIALS', // Replace with your server endpoint
+            //     data: JSON.stringify({
+            //         emailOrPhone: emailOrPhone,
+            //         password: password
+            //     }),
+            //     contentType: "application/json; charset=utf-8",
+            //     dataType: "json",
+            //     success: function(response) {
+            //         // Example response: { isValid: true, userRole: 'Site Manager' }
+            //         if (response.isValid) {
+            //             if (response.userRole === 'Site Manager') {
+            //                 window.location.href = 'SM_Dash.html';
+            //             } else if (response.userRole === 'Store Owner') {
+            //                 window.location.href = 'SO_Dashboard.html';
+            //             } else {
+            //                 // Handle any other user roles or errors
+            //                 alert('User role not recognized. Please contact support.');
+            //             }
+            //         } else {
+            //             // Highlight the input fields to indicate an error
+            //             document.getElementById('email-phone').style.border = "2px solid red";
+            //             document.getElementById('password').style.border = "2px solid red";
+            //             alert('Invalid credentials. Please try again.');
+            //         }
+            //     },
+            //     error: function(xhr, status, error) {
+            //         // Handle the server error
+            //         alert('An error occurred on the server. Please try again later.');
+            //     }
+            // });
+        }
+
+        // Additional scripts can be added here
+    </script>
+</body>
+</html>

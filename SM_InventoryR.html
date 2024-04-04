@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Report</title>
+    <link rel="stylesheet" href="SM_InventoryR.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" alt="Hidden Peak Logo">
+    </header>
+    
+    <nav>
+        <button id="dashboard-button" onclick="goToDashboard()">Dashboard</button>
+        <h2>Inventory Report</h2>
+    </nav>
+
+    <main>
+        <section>
+            <label for="sort-option">Sort by $$</label>
+            <select id="sort-option" onchange="sortInventory()">
+                <option value="">Sort by</option>
+                <option value="desc">DESC</option>
+                <option value="asc">ASC</option>
+            </select>
+        </section>
+
+        <table id="inventory-table">
+            <thead>
+                <tr>
+                    <th>Store Name</th>
+                    <th>Total Inventory Value</th>
+                </tr>
+            </thead>
+            <tbody id="inventory-body">
+                <!-- Inventory data will be inserted here -->
+            </tbody>
+        </table>
+
+        <div class="total-inventory-value">
+            <span>Total Inventory Value: $<span id="total-value">0.00</span></span>
+        </div>
+        <div class="total-balance-value">
+            <span>Total Site Balance: $<span id="total-balance">0.00</span></span>
+        </div>
+
+    </main>
+
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', fetchInventoryReport);
+
+        function fetchInventoryReport() {
+            fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/reportTotalInventory", {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(result => {
+                let totalInventoryValue = 0;
+                result.body.forEach(store => {
+                    let storeInventoryValue = parseFloat(store.total_inventory_value || 0);
+                    totalInventoryValue += storeInventoryValue;
+                    $('#inventory-table > tbody').append(`<tr><td>${store.storeName}</td><td>$${storeInventoryValue.toFixed(2)}</td></tr>`);
+                });
+                $('#total-value').text(totalInventoryValue.toFixed(2));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching inventory report. Please try again.');
+            });
+
+            // get site balance
+            fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/getSiteBalance", {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(result => {
+                $('#total-balance').text(result.body[0].balance.toFixed(2));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching inventory report. Please try again.');
+            });
+            
+        }
+
+        document.getElementById('dashboard-button').addEventListener('click', function() {
+            window.location.href = 'SM_Dash.html';
+        });
+
+        function sortInventory() {
+            var table = document.getElementById('inventory-table');
+            var tbody = table.getElementsByTagName('tbody')[0];
+            var rows = Array.from(tbody.getElementsByTagName('tr'));
+            var sortOption = document.getElementById('sort-option').value;
+
+            // Only sort if a valid option is selected
+            if (sortOption === 'asc' || sortOption === 'desc') {
+                rows.sort(function(a, b) {
+                    var valA = parseFloat(a.cells[1].textContent.replace('$', ''));
+                    var valB = parseFloat(b.cells[1].textContent.replace('$', ''));
+
+                    return sortOption === 'asc' ? valA - valB : valB - valA;
+                });
+
+                // Re-adding sorted rows to the table body
+                rows.forEach(function(row) {
+                    tbody.appendChild(row);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

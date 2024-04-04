@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SM_Dash.css">
+    <title>Hidden Peak - Site Manager Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <img id="logo" src="peak.png" alt="Hidden Peak">
+        <!-- <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <button>🔍</button>
+        </div> -->
+        <!-- <div class="user-options">
+            <button class="sign-out-btn">Sign out</button>
+        </div> -->
+    </header>
+    <main>
+        <div class="dashboard-header">Site Manager Dashboard</div>
+        <button class="action-btn" onclick="navigate('SM_InventoryR.html')">Inventory Reports</button>
+        <button class="action-btn" onclick="navigate('SM_RemoveStore.html')">Remove Store</button>
+        <button class="action-btn" onclick="navigate('welcome.html')">Log Out</button>
+    </main>
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // JavaScript function to navigate to a specific page
+        function navigate(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>

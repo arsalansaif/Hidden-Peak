@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak</title>
+    <link rel="stylesheet" href="login.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="peak.png" alt="Hidden Peak">
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+            <button>🔍</button>
+        </div>
+        <div class="account">
+            <button>Sign In</button>
+        </div>
+    </header>
+    <main>
+        <div class="sign-in-box">
+            <h2>Site Manager Login</h2>
+            <div class="input-field">
+                <input type="text" id="username" placeholder="Username">
+            </div>
+            <div class="input-field">
+                <input type="password" id="password" placeholder="Password">
+                <h5><a href="#">Forgot your password?</a></h5>
+            </div>
+            <button class="continue-btn" onclick="authenticateUser()">Continue</button>
+            <h5><p>By continuing, you agree to Hidden Peak's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p></h5>
+            <!-- <p><a href="#">Need help?</a></p> -->
+            <!-- <div class="new-account">
+                <p>New to Hidden Peak?</p>
+                <button onclick="window.location.href='account.html'">Create Account</button>
+            </div> -->
+        </div>
+    </main>
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        function authenticateUser() {
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+
+            var payload = { "username" : username, "password" : password }
+            console.log(payload)
+            // Here you can add some basic validation for emailOrPhone and password before sending the request
+
+            // this calls the endpoint try and authenticate 
+            const response = fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/siteManagerLogin",
+            {
+                method: "POST",
+                body: JSON.stringify(payload)
+            }).then((response) => response)
+
+            const fetchResult = async () => {
+                let val = await response
+                let result = await val.json()
+                
+                if (result.body.length == 1) {
+                    alert('Welcome Site Manager!')
+                    window.location.href = 'SM_Dash.html';
+                }
+                else {
+                    alert('Login failed')
+                    window.location.href = 'welcome.html';
+                }
+            }
+            fetchResult()   
+        }
+    </script>
+</body>
+</html>

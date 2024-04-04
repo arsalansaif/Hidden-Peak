@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Hidden Peak</title>
+    <link rel="stylesheet" href="account.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        async function submitForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            //  condition to check for 'username'
+            if (username && password) {
+                var payload = {
+                    username: username,
+                    password: password, 
+                };
+
+                try {
+                    let response = await fetch('https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/Login', {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    let result = await response.json();
+                    if (response.status === 200) {
+                        alert("Account created successfully.");
+                        window.location.href = "login.html"; // Redirecting to login page
+                    } else {
+                        alert("Error: " + result.error);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert("Failed to create account.");
+                }
+            } else {
+                alert("Please fill out all fields.");
+            }
+        }
+
+        function redirectToLogin() {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" alt="Hidden Peak" class="logo">
+    </header>
+    <main>
+        <div class="create-account-box">
+            <h2>Site Manager</h2>
+            <h3>Create Account</h3>
+            
+            <div class="input-field">
+                <label for="username">User Name</label>
+                <input type="text" id="username" placeholder="Username">
+            </div>
+            <div class="input-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            
+            <div class="button-group">
+                <button onclick="redirectToLogin()">Cancel</button>
+                <button onclick="submitForm()">Submit</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+</body>
+</html>

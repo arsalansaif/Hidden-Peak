@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Page</title>
+    <link rel="stylesheet" href="customer.css">
+</head>
+<body>
+    <header>
+        <img src="peak.png" alt="Hidden Peak Logo">
+        <div class="location">
+            <input type="number" id="latitudeInput" placeholder="Latitude">
+            <input type="number" id="longitudeInput" placeholder="Longitude">
+            <!-- <button id="updateShipping">Update</button>
+            <div id="shipping-cost">Shipping Cost: $0.00</div> -->
+        </div>        
+    </header>
+
+    <div class="container">
+        <section class="filter">
+            <label for="storeSelect">Select a Store</label>
+            <div class="input-field">
+                <select id="storeSelect">
+                    <option value="">All Stores</option>
+                    <!-- Store options will be populated here -->
+                </select>
+            <h2>Filter</h2>
+            
+            </div>
+            <button id="applyFilters">Apply Filters</button>
+                <details open>
+                    <summary>Price</summary>
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="price" id="below500" value="below500">
+                            <label for="below500">$500 or less</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="price" id="500to1000" value="500to1000">
+                            <label for="500to1000">$501 to $1000</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="price" id="1000to1500" value="1000to1500">
+                            <label for="1000to1500">$1001 to $1500</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="price" id="1500to2000" value="1500to2000">
+                            <label for="1500to2000">$1501 to $2000</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="price" id="above2000" value="above2000">
+                            <label for="above2000">$2,001 or more</label>
+                        </li>
+                    </ul>
+                </details>
+                
+                <details open>
+                    <summary>Memory</summary>
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="memory" id="4 GB" value="4 GB">
+                            <label for="4gb">4 GB or less</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="memory" id="8 GB" value="8 GB">
+                            <label for="8gb">8 GB</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="memory" id="16 GB" value="16 GB">
+                            <label for="16gb">16 GB</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="memory" id="32 GB" value="32 GB">
+                            <label for="32gb">32 GB or more</label>
+                        </li>
+                    </ul>
+                </details>
+                
+                <details open>
+                    <summary>Processor</summary>
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="processor" id="Intel" value="Intel">
+                            <label for="intel-i3">All Intel Processors</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="processor" id="AMD" value="AMD">
+                            <label for="intel-i5">All AMD Processors</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="processor" id="Any" value="Any">
+                            <label for="intel">Any from list</label>
+                        </li>
+                    </ul>
+                </details>
+                
+                <details open>
+                    <summary>Processor Generation</summary>
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="processor_gen" id="13th Gen" value="13th Gen">
+                            <label for="13thGenIntel">13th Gen Intel</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="processor_gen" id="12th Gen" value="12th Gen">
+                            <label for="12thGenIntel">12th Gen Intel</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="processor_gen" id="11th Gen" value="11th Gen">
+                            <label for="11thGenIntel">11th Gen Intel</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="processor_gen" id="AMD Ryzen 7000" value="AMD Ryzen 7000">
+                            <label for="AMD7000">AMD Ryzen 7000 Series</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="processor_gen" id="AMD Ryzen 6000" value="AMD Ryzen 6000">
+                            <label for="AMD6000">AMD Ryzen 6000 Series</label>
+                        </li>
+                        
+                    </ul>
+                </details>
+                
+                <details open>
+                    <summary>Storage Size</summary>
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="storage" id="2 TB" value="2 TB">
+                            <label for="2tbOrMore">2 TB or more</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="storage" id="1 TB" value="1 TB">
+                            <label for="1tb">1 TB</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="storage" id="512 GB" value="512 GB">
+                            <label for="512gb">512 GB</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="storage" id="256 GB" value="256 GB">
+                            <label for="256gbOrLess">256 GB or less</label>
+                        </li>
+                    </ul>
+                </details>
+                
+                <details open>
+                    <summary>Graphics</summary>
+                    <ul>
+                        <li>
+                            <input type="checkbox" name="graphics" id="NVIDIA" value="NVIDIA">
+                            <label for="nvidia">All NVIDIA Graphics</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="graphics" id="AMD" value="AMD">
+                            <label for="amd">All AMD Graphics</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="graphics" id="Intel" value="Intel">
+                            <label for="intel">All Intel Graphics</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" name="graphics" id="Any" value="Any">
+                            <label for="intel">Any from list</label>
+                        </li>
+                    </ul>
+                </details>
+                
+        </section>
+
+        <section class="products">
+            <div class="compare-bar">
+                <button id="compareProductsButton">Compare</button>
+            </div>
+
+            <div class="products" id="productListing">
+                <!-- Products will be dynamically inserted here -->
+                <!-- Comparison Container -->
+
+            </div>
+        </section>
+        <!-- Modal for comparison -->
+        <div id="comparisonModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <div id="comparisonDetails">
+                <!-- Comparison details will be inserted here -->
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Custom Alert Modal -->
+    <div id="customAlert" class="custom-alert" style="display: none;">
+        <div class="custom-alert-content">
+            <div class="custom-alert-message" id="customAlertMessage">This is a custom alert message.</div>
+            <button onclick="closeCustomAlert()">OK</button>
+        </div>
+    </div>
+
+
+    <footer>
+        <ul>
+            <li><a href="#">Terms of Sales</a></li>
+            <li><a href="#">Privacy Statement</a></li>
+            <li><a href="#">Cookies, Ads & Emails</a></li>
+            <li><a href="#">Legal & Regulatory</a></li>
+            <li><a href="#">Accessibilities</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        class Store {
+            constructor() {
+                this.allStores = [];
+            }
+        
+            async fetchStores() {
+                try {
+                    const response = await fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/storeNames");
+                    const data = await response.json();
+                    this.allStores = data.statusCode === 200 ? data.body : [];
+                } catch (error) {
+                    console.error('Error fetching stores:', error);
+                }
+            }
+        
+            populateStoreDropdown() {
+                const storeSelect = document.getElementById('storeSelect');
+                storeSelect.innerHTML = '<option value="">All Stores</option>';
+                this.allStores.forEach(store => {
+                    const option = document.createElement('option');
+                    option.value = store.storeName; // Assuming each store has a unique storeId
+                    option.textContent = store.storeName;
+                    storeSelect.appendChild(option);
+                });
+            }
+            
+        }
+
+           
+        class Product {
+            constructor() {
+                this.allProducts = [];
+            }
+        
+            async fetchProducts() {
+                try {
+                    const response = await fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/customerInventory");
+                    const data = await response.json();
+                    this.allProducts = data.statusCode === 200 ? data.body : [];
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                }
+            }
+        
+            displayProducts(products) {
+                const productListing = document.getElementById('productListing');
+                productListing.innerHTML = products.map(product => `
+                <article class="product" data-id="${product.computerId}">
+                    <input type="checkbox" class="compare-checkbox" data-id="${product.computerId}" >
+                        <div class="product-header">
+                        <img src="images1.jpg" alt="${product.name}">
+                        <h5>Product Id: ${product.computerId}</h5>
+                        <div class="product-details">
+                            <ul style="list-style-type: circle">
+                                <li>Store Name: ${product.storeName}</li>
+                                <li>Memory: ${product.memory}</li>
+                                <li>Processor: ${product.processor}</li>
+                                <li>Processor Gen: ${product.processorGeneration}</li>
+                                <li>Graphics: ${product.graphics}</li>
+                                <li>Storage: ${product.storage}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h3>Price: $${product.price}</h3>
+                    <button onclick="processPurchase(${product.computerId},  'buyNow')">Buy Now</button>
+                </article>
+                `).join('');
+
+                document.getElementById('compareProductsButton').disabled = true; // Disable compare button initially
+            }
+        
+            applyFilters() {
+            
+                const selectedStore = document.getElementById('storeSelect').value;
+                const priceFilters = this.getCheckedValues('price');
+                const memoryFilters = this.getCheckedValues('memory');
+                const processorFilters = this.getCheckedValues('processor');
+                const processorGenFilters = this.getCheckedValues('processor_gen');
+                const storageFilters = this.getCheckedValues('storage');
+                const graphicsFilters = this.getCheckedValues('graphics');
+
+                let filteredProducts = this.allProducts.filter(product => {
+                    return (selectedStore === '' || product.storeName === selectedStore) &&
+                        (priceFilters.length === 0 || priceFilters.includes(this.priceRange(product.price))) &&
+                        (memoryFilters.length === 0 || memoryFilters.some(filter => {
+                            if (filter === '4 GB') {
+                                return parseInt(product.memory.split(' ')[0]) <= 4;
+                            }
+                            return product.memory.includes(filter);
+                        })) &&
+                        (processorFilters.length === 0 || processorFilters.includes('Any') || processorFilters.some(filter => product.processor.includes(filter))) &&
+                        (processorGenFilters.length === 0 || processorGenFilters.includes(product.processorGeneration)) &&
+                        (storageFilters.length === 0 || storageFilters.some(filter => {
+                            if (filter === '256 GB') {
+                                const storageValue = parseInt(product.storage.split(' ')[0]);
+                                return storageValue === 256 || storageValue === 128;
+                            }
+                            return product.storage.includes(filter);
+                        })) &&
+                        (graphicsFilters.length === 0 || graphicsFilters.includes('Any') || graphicsFilters.some(filter => product.graphics.includes(filter)));
+                });
+
+                this.displayProducts(filteredProducts);
+            }
+
+        
+            getCheckedValues(filterName) {
+                return Array.from(document.querySelectorAll(`input[name="${filterName}"]:checked`)).map(el => el.value);
+            }
+        
+            priceRange(price) {
+                if (price <= 500) return 'below500';
+                if (price > 500 && price <= 1000) return '500to1000';
+                if (price > 1000 && price <= 1500) return '1000to1500';
+                if (price > 1500 && price <= 2000) return '1500to2000';
+                if (price > 2000) return 'above2000';
+                return 'other';
+            }
+        }
+        
+        class Comparison {
+            constructor(productInstance) {
+                this.selectedForComparison = [];
+                this.productInstance = productInstance; // Reference to the Product instance
+            }
+
+            toggleCompareCheckbox(productId, checked) {
+                if (checked) {
+                    this.selectedForComparison.push(productId);
+                } else {
+                    this.selectedForComparison = this.selectedForComparison.filter(id => id !== productId);
+                }
+                // Enable or disable the compare button based on the number of selected products
+                document.getElementById('compareProductsButton').disabled = this.selectedForComparison.length <= 2;
+
+            }
+
+            compareProducts() {
+                if (this.selectedForComparison.length <= 2) {
+                    alert('Please select exactly two products to compare.');
+                    return;
+                }
+                // Use the products from the Product instance
+                const productsToCompare = this.productInstance.allProducts.filter(product => 
+                    this.selectedForComparison.includes(product.computerId.toString())
+                );
+                this.displayComparison(productsToCompare);
+            }
+
+            displayComparison(products) {
+                const comparisonModal = document.getElementById('comparisonModal');
+                const comparisonDetails = document.getElementById('comparisonDetails');
+                comparisonDetails.innerHTML = products.map(product => `
+                <article class="compare" data-id="${product.computerId}">
+                                <div class="compare-header">
+                                <img src="images1.jpg" alt="${product.name}">
+                                <h5>Product Id: ${product.computerId}</h5>
+                                <div class="compare-details">
+                                    <ul style="list-style-type: circle">
+                                        <li>Store Name: ${product.storeName}</li>
+                                        <li>Memory: ${product.memory}</li>
+                                        <li>Processor: ${product.processor}</li>
+                                        <li>Processor Gen: ${product.processorGeneration}</li>
+                                        <li>Graphics: ${product.graphics}</li>
+                                        <li>Storage: ${product.storage}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <h3>Price: $${product.price}</h3>
+                            <button onclick="processPurchase(${product.computerId}, 'compareBuyNow')">Buy Now</button>
+                        </article>
+                `).join('');
+
+                // Show the modal
+                comparisonModal.style.display = 'block';
+            }
+        }
+
+        
+        class Shipping {
+            constructor(storeInstance) {
+                this.storeInstance = storeInstance; // Reference to the Store instance
+            }
+        }
+
+        
+        class Main {
+            constructor() {
+                this.store = new Store();
+                this.product = new Product();
+                this.comparison = new Comparison(this.product);
+                this.shipping = new Shipping(this.store); // Pass the store instance
+                this.addEventListeners();
+            }
+        
+            addEventListeners() {
+                document.getElementById('storeSelect').addEventListener('change', () => this.product.applyFilters());
+                document.getElementById('applyFilters').addEventListener('click', () => this.product.applyFilters());
+                //document.getElementById('updateShipping').addEventListener('click', () => this.shipping.updateShippingCost());
+                document.getElementById('compareProductsButton').addEventListener('click', () => {
+                    app.comparison.compareProducts();
+                });
+
+                document.getElementById('productListing').addEventListener('change', event => {
+                    if (event.target.classList.contains('compare-checkbox')) {
+                        const productId = event.target.getAttribute('data-id');
+                        const isChecked = event.target.checked;
+                        app.comparison.toggleCompareCheckbox(productId, isChecked);
+                    }
+                });
+            }
+            
+            async init() {
+                await this.store.fetchStores();
+                this.store.populateStoreDropdown();
+                await this.product.fetchProducts();
+                this.product.displayProducts(this.product.allProducts);
+                this.addEventListeners();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('comparisonModal').style.display = 'none';
+            app.comparison.selectedForComparison = []; // Reset the comparison array
+            document.querySelectorAll('.compare-checkbox').forEach(checkbox => checkbox.checked = false); // Uncheck all checkboxes
+            document.getElementById('compareProductsButton').disabled = true; // Disable the compare button
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const toRad = x => x * Math.PI / 180;
+            const R = 6371; // Radius of the earth in km
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a = 
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
+                Math.sin(dLon / 2) * Math.sin(dLon / 2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); 
+            const d = R * c; // Distance in km
+            return d * 0.621371; // Convert to miles
+        }
+
+        function calculateShippingCost(latitude, longitude, storeLatitude, storeLongitude) {
+            const distance = this.calculateDistance(latitude, longitude, storeLatitude, storeLongitude);
+            const shippingCost = distance * 0.03; // Example: cost calculation
+            return shippingCost;
+            // document.getElementById('shipping-cost').textContent = `Shipping Cost: $${shippingCost.toFixed(2)}`;
+        }
+
+        
+        async function processPurchase(computerId, context) {
+            const productToBuy = app.product.allProducts.find(product => product.computerId === computerId);
+            if (productToBuy) {
+                // Base price of the computer
+                const basePrice = productToBuy.price;
+
+                const latitude = parseFloat(document.getElementById('latitudeInput').value);
+                const longitude = parseFloat(document.getElementById('longitudeInput').value);
+
+                if (isNaN(latitude) || isNaN(longitude)) {
+                    alert("Please enter valid latitude, longitude values");
+                    return;
+                }
+
+                //get store location based on purchase
+                const storeInfo = await getStoreInfo(computerId);
+
+                const storeId = storeInfo.body.storeId
+                const storeLatitude = storeInfo.body.latitude
+                const storeLongitude = storeInfo.body.longitude
+
+                console.log(storeLatitude, storeLongitude);
+
+                const shippingCost = calculateShippingCost(latitude, longitude, storeLatitude, storeLongitude)
+                console.log("Shipping cost is " + shippingCost)
+
+                // Retrieve the shipping cost from the shipping cost display element
+                // const shippingCostDisplay = document.getElementById('shipping-cost').textContent;
+                // const shippingCost = parseFloat(shippingCostDisplay.split('$')[1]);
+
+                // Total amount including shipping cost
+                const totalAmount = basePrice + shippingCost;
+
+                // Calculate the site manager's commission (5% of the base price)
+                const siteManagerCommission = (5 / 100) * basePrice;
+
+                // Calculate the balance for the store (total amount minus commission)
+                const storeBalance = basePrice - siteManagerCommission;
+                
+                const buttonClass = context === 'compareBuyNow' ? 'compare-button' : 'buy-button';
+
+                const purchaseSuccess = await purchaseComputer(computerId);
+
+                if (purchaseSuccess) {
+                    const addSiteCommissionSuccess = await addSiteCommission(siteManagerCommission);
+                    const addStoreBalanceSuccess = await addStoreBalance(storeBalance, storeId);
+                    if (addSiteCommissionSuccess && addStoreBalanceSuccess) {
+                        // if purchase computer is successful, then show this
+                        showCustomAlert(`Purchase processed: <br><br>Total Price $${totalAmount.toFixed(2)}, <br>Shipping Cost: $${shippingCost.toFixed(2)}, <br>Commission $${siteManagerCommission.toFixed(2)}, <br>Store Balance $${storeBalance.toFixed(2)}<br>`);
+                    }
+                } 
+                else {
+                    alert('Computer id ' + computerId + ' is no longer available!');
+                    location.reload();
+                }
+                
+            }
+        }
+
+        async function getStoreInfo(computerId) {
+            var payload = { 'computerId': computerId };
+            return await fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/compareCustomerStoreLocation", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => {return response.json()})
+            .catch(error => {
+                console.error('Error fetching store location for computer:', error);
+                return false;
+            });
+        }
+
+        async function purchaseComputer(computerId) {
+            // purchase the computer
+            var payload = { 'computerId': computerId };
+
+            return await fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/removeComputer", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                const affectedRows = result.body.affectedRows
+                console.log(affectedRows)
+                if (affectedRows === 0) {
+                    return false;
+                } else {
+                    console.log('purchased computer ' + computerId)
+                    return true;
+                }
+            })
+            .catch(error => {
+                console.error('Error purchasing computer:', error);
+                return false;
+            });
+        }
+
+        async function addSiteCommission(commission) {
+            // add a commission
+            var commissionPayload = { 'balance': commission };
+
+            return await fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/addSiteBalance", {
+                method: "POST",
+                body: JSON.stringify(commissionPayload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Added $' + commission + ' to site balance')
+                return true;
+            })
+            .catch(error => {
+                console.error('Error adding site balance:', error);
+                return false;
+            });
+        }
+
+        async function addStoreBalance(balance, storeId) {
+            // add balance
+            var payload = { 'balance' : balance, 
+                            'storeId' : storeId };
+
+            return await fetch("https://rbc6tkclmh.execute-api.us-east-2.amazonaws.com/Initial/hiddenpeak/addStoreBalance", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Added $' + balance + ' to store Id ' + storeId + ' balance')
+                return true;
+            })
+            .catch(error => {
+                console.error('Error adding store balance:', error);
+                return false;
+            });
+        }
+
+        function showCustomAlert(message) {
+    document.getElementById('customAlertMessage').innerHTML = message;
+    document.getElementById('customAlert').style.display = 'flex';
+}
+function closeCustomAlert() {
+    document.getElementById('customAlert').style.display = 'none';
+    window.location.href = 'confirmationPage.html'; // Redirect to confirmation page
+}
+
+        
+        const app = new Main();
+        app.init();
+        </script>
+        
+</body>
+</html>

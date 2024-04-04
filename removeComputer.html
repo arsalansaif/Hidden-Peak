@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden Peak - Remove Computer</title>
+    <link rel="stylesheet" href="removeComputer.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="peak.png" id="logo" alt="Hidden Peak Logo">
+    </header>
+    
+    <div class="content">
+        <div class="inventory-section">
+            <h2 id="top-title">Remove Computer from Inventory</h2>
+            <form id="remove-computer-form">
+                <select id="computer-select">
+                    <option value="">Select Computer to Remove</option>
+                    <!-- Computer options will be populated here -->
+                </select>
+
+                <div class="button-container">
+                    <button id="back-inventory-btn" type="button">Back to Inventory Management</button>
+                    <button type="button" id="remove-computer-btn">Remove Computer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <a href="#">Terms of Sales</a>
+        <a href="#">Privacy Statement</a>
+        <a href="#">Cookies, Ads & Emails</a>
+        <a href="#">Legal & Regulatory</a>
+        <a href="#">Accessibilities</a>
+    </footer>
+
+    <script>
+        // Get the storeId and storeName from the URL params
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const storeId = urlParams.get('storeId');
+        const storeName = urlParams.get('storeName');
+
+        $("#top-title").text("Remove Computer from " + storeName);
+
+        document.getElementById('back-inventory-btn').addEventListener('click', function() {
+            window.location.href = 'SO_InventoryM.html?storeId=' + storeId + '&storeName=' + storeName;
+        });
+
+        document.getElementById('remove-computer-btn').addEventListener('click', function() {
+            const selectedComputerId = document.getElementById('computer-select').value;
+            if (!selectedComputerId) {
+                alert('Please select a computer to remove.');
+                return;
+            }
+
+            // Call API to remove the computer
+            const response = fetch(`https://YOUR_API_ENDPOINT/removeComputer?computerId=${selectedComputerId}`, {
+                method: "DELETE"
+            }).then((response) => response)
+
+            const fetchResult = async () => {
+                let val = await response;
+                let result = await val.json();
+                console.log(result);
+                alert('Computer successfully removed!');
+                window.location.href = "SO_InventoryM.html?storeId=" + storeId + '&storeName=' + storeName;
+            }
+
+            fetchResult();
+        });
+
+        // Function to fetch computers and populate the dropdown
+        async function fetchComputers() {
+            // Fetch computers from API
+            // Replace 'API_GET_COMPUTERS_ENDPOINT' with actual API endpoint
+            try {
+                const response = await fetch(`API_GET_COMPUTERS_ENDPOINT?storeId=${storeId}`);
+                const computers = await response.json();
+                populateComputersDropdown(computers);
+            } catch (error) {
+                console.error('Error fetching computers:', error);
+            }
+        }
+
+        function populateComputersDropdown(computers) {
+            const computerSelect = document.getElementById('computer-select');
+            computers.forEach(computer => {
+                const option = document.createElement('option');
+                option.value = computer.computerId;
+                option.textContent = `${computer.name} (${computer.processor}, ${computer.memory}, ${computer.storage})`;
+                computerSelect.appendChild(option);
+            });
+        }
+
+        // Call fetchComputers when the page loads
+        fetchComputers();
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+const mysql = require('mysql');
+const db_access = require('/opt/nodejs/db_access');
+
+exports.handler = async (event) => {
+  var pool = mysql.createPool({
+    host: db_access.config.host,
+    user: db_access.config.user,
+    password: db_access.config.password,
+    database: db_access.config.database
+  });
+
+  let getSiteBalance = () => {
+    return new Promise((resolve, reject) => {
+      pool.query('SELECT balance from ConsignmentStore.Site', (error, rows) => {
+        if (error) { 
+          return reject(error); 
+        }
+        if (rows) {
+          return resolve(rows);
+        } else {
+          return reject("No inventory found.");
+        }
+      });
+    });
+  }
+
+  try {
+    const balance = await getSiteBalance();
+    var jsonResult = JSON.parse(JSON.stringify(balance));
+    return {'statusCode': 200, 'body': jsonResult };
+  } catch (error) {
+    return {'statusCode': 500, 'body': JSON.stringify({ error: 'Could not report total inventory' })};
+  }
+};
+
