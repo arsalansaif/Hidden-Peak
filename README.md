@@ -47,25 +47,6 @@ The following use cases are currently implemented as of 11/26/23:
 - (C) Compare multiple computers
 - (C) Purchase computer
 
-## Team Member Contributions
-
-Samy
-- Front end design
-- Front end calculations (inventory summation, computer filtering)
-- Bug fixes
-
-Stephen J.
-- Lambda functions
-- Backend integration
-- Database
-
-Steve C.
-- Lambda functions
-- Backend integration
-- Database
-- S3 implementation
-- Bug fixes
-
 ## Instruction For Running Final Iteration
 
 - Site Manager Remove Store
